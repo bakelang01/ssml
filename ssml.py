@@ -6,7 +6,6 @@
 import pprint
 import re
 import time
-
 import openpyxl
 import requests
 from faker import Faker
@@ -29,7 +28,7 @@ class SSML():
         '''
 
         self.data = data
-        self.data['pageno'] = 1,  # 页面数
+        self.data['pageno'] = 1  # 页面数
 
     def headers(self):
         fa = Faker()
@@ -92,7 +91,6 @@ class SSML():
                 response.encoding = 'utf-8'
                 zhuanye_li = self.zhuanye_parse(response.text)
                 self.universitys[i]['zhuangye'] = zhuanye_li
-                print('\n')
             else:
                 print('获取学校专业目录出错：', self.universitys[i])
                 input('随意输入继续：')
@@ -191,4 +189,5 @@ class SSML():
                 sheet.append(row)
 
         # 保存工作簿为Excel文件
+        print(f"数据已存储到{filename}")
         workbook.save(filename)
