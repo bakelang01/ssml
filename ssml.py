@@ -131,7 +131,7 @@ class SSML():
         for tbody in tbodys:
             fw_li = [re.sub("[\n \r]", '', fw) for fw in tbody.xpath('./tr/td/text()')]
             fw_li.remove('')
-            fws += ' | '.join(fws) + '\n'
+            fws += ' | '.join(fw_li) + '\n'
         return fws
 
     def save(self, filename='data.xlsx'):
