@@ -3,9 +3,9 @@
 # 创建时间：2023/9/5 19:15
 # 文件名：test.py
 
-import pprint
 import re
 import time
+
 import openpyxl
 import requests
 from faker import Faker
@@ -14,9 +14,10 @@ from lxml import etree
 
 class SSML():
     def __init__(self):
-        self.has_max_pagenp = False
-        self.max_pageno = 2
-        self.data = None
+        self.has_max_pagenp = False  # 是否获取最大页数的标志
+        self.max_pageno = 2  # 最大页数默认值
+        self.count = None  # 显示计数
+        self.data = None  # 参数配置
         # 信息存储表
         self.universitys = []
 
@@ -54,8 +55,10 @@ class SSML():
             university['bsd'] = 1 if tr.xpath('./td[5]/i/text()') else 0
             university_li.append(university)
 
-        if self.has_max_pagenp:
-            self.max_pageno = int(tree.xpath('//ul[@class="ch-page"]/li')[-2].xpath('./a/text()')[0])
+        if not self.has_max_pagenp:
+            self.max_pageno = int(tree.xpath('//ul[@class="ch-page"]/li//text()')[-2])
+            self.count = self.max_pageno
+            self.has_max_pagenp = True
 
         return university_li
 
@@ -75,6 +78,7 @@ class SSML():
                 print('获取异常：', response.headers)
                 input('任意输入继续：')
                 break
+            time.sleep(0.1)
         time.sleep(0.5)
         self.universitys = university_li.copy()
         return university_li
@@ -83,7 +87,8 @@ class SSML():
         # 根据院校主页url获取其专业信息，并加入到self.universitys中
         for i in range(len(self.universitys)):
             url = self.universitys[i]['href']
-            print(self.universitys[i]['name'] + '\n' + url + '\n')
+            print(self.count, self.universitys[i]['name'] + '\n' + url + '\n')
+            self.count -= 1
             response = requests.get(url, headers=self.headers())
             if response.status_code == 200:
                 response.encoding = 'utf-8'
