@@ -11,9 +11,11 @@ if __name__ == '__main__':
     # 加载参数
     ss.config(config.data)
     # 获取学校信息
-    school_li = ss.get_school_li()
+    school_li=ss.get_school_li()
+    print(school_li,'\n'+f'数量：{len(school_li)}')
+    print("学校列表信息获取成功！")
     # 获取学校专业信息
-    zhuangye=ss.get_zhuanye()
+    ss.get_zhuanye()
     # 保存
-    ss.save('data.xlsx')
+    ss.save('data1.xlsx')
 

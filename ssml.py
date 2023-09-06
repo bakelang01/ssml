@@ -75,8 +75,6 @@ class SSML():
                 print('获取异常：', response.headers)
                 input('任意输入继续：')
                 break
-        pprint.pp(university_li)
-        print("学校列表信息获取成功！")
         time.sleep(0.5)
         self.universitys = university_li.copy()
         return university_li
@@ -131,7 +129,7 @@ class SSML():
         for tbody in tbodys:
             fw_li = [re.sub("[\n \r]", '', fw) for fw in tbody.xpath('./tr/td/text()')]
             fw_li.remove('')
-            fws += ' | '.join(fw_li) + '\n'
+            fws += ' || '.join(fw_li) + '\n'
 
         return fws
 
@@ -147,9 +145,6 @@ class SSML():
 
         for item in self.universitys:
             for i in range(len(item['zhuangye'])):
-                fw_str = ''
-                for ffw in item['zhuangye'][i]['ksfw']:
-                    fw_str += ' '.join(ffw) + ' || '
                 if i > 0:
                     row = [
                         '',
@@ -165,7 +160,7 @@ class SSML():
                         item['zhuangye'][i].get('xxfs', ''),
                         item['zhuangye'][i].get('zdls', ''),
                         item['zhuangye'][i].get('nzrs', ''),
-                        fw_str,
+                        item['zhuangye'][i]['ksfw'],
                         item['zhuangye'][i].get('bz', ''),
                     ]
                 else:
@@ -183,7 +178,7 @@ class SSML():
                         item['zhuangye'][i].get('xxfs', ''),
                         item['zhuangye'][i].get('zdls', ''),
                         item['zhuangye'][i].get('nzrs', ''),
-                        fw_str,
+                        item['zhuangye'][i]['ksfw'],
                         item['zhuangye'][i].get('bz', ''),
                     ]
 
